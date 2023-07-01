@@ -4,18 +4,16 @@ from TicTacToe import TicTacToe
 from State import State
 from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
-from AI_Agent import AI_Agent
 from DQN_Agent import DQN_Agent
 
-# PATH = 'Data/DQN_1.pth'
+PATH = 'Data\DQN_PARAM_30K.pth'
 
 pygame.init()
 clock = pygame.time.Clock()
 graphics = Graphics()
 env = TicTacToe(State())
-# player1 = AI_Agent(player=1, env=env, graphics=graphics, Q_table_PATH=PATH, train=False)
 # player1 = Random_Agent(player=1, env=env, graphics=graphics)
-player1 = DQN_Agent(player=1,parametes_path=None, train=False, env=env)
+player1 = DQN_Agent(player=1,parametes_path=PATH, train=False, env=env)
 # player2 = Random_Agent(player=-1, env=env, graphics=graphics)
 player2 = Human_Agent(-1,env=env, graphics=graphics)
 

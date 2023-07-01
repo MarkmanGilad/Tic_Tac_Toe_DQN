@@ -33,31 +33,41 @@ class DQN_Agent:
           else:
               self.DQN.eval()
 
-    def get_action (self, state: State, epoch = 0, events= None):
+    def get_action (self, state: State, epoch = 0, events= None, epsilon = True):
         epsilon = self.epsilon_greedy(epoch)
         rnd = random.random()
         actions = self.env.legal_actions(state)
-        if self.train and rnd < epsilon:
+        if self.train and epsilon and rnd < epsilon:
             return random.choice(actions)
         
         state_tensor = state.toTensor()
         action_np = np.array(actions)
         action_tensor = torch.from_numpy(action_np)
         expand_state_tensor = state_tensor.unsqueeze(0).repeat((len(action_tensor),1))
-        state_action = torch.cat((expand_state_tensor, action_tensor ), dim=1)
-        
-        Q_values = self.DQN(state_action)
+        # state_action = torch.cat((expand_state_tensor, action_tensor ), dim=1)
+        with torch.no_grad():
+            Q_values = self.DQN(expand_state_tensor, action_tensor)
         max_index = torch.argmax(Q_values)
         return actions[max_index]
 
+    def get_actions (self, states, dones):
+        actions = []
+        for i, state in enumerate(states):
+            if dones[i].item():
+                actions.append((0,0))
+            else:
+                actions.append(self.get_action(State.tensorToState(state), epsilon=False))
+        return torch.tensor(actions)
 
     def epsilon_greedy(self,epoch, start = epsilon_start, final=epsilon_final, decay=epsiln_decay):
         res = final + (start - final) * math.exp(-1 * epoch/decay)
         return res
     
-    def loss (self, Q_value, rewards, Q_next_Values, Dones ):
-        Q_new = rewards + gamma * Q_next_Values * (1- Dones)
-        return MSELoss(Q_value, Q_new)
+    def save_param (self, path):
+        self.DQN.save_params(path)
+
+    def load_params (self, path):
+        self.DQN.load_params(path)
 
     def __call__(self, events= None, state=None) -> Any:
         return self.get_action(state)

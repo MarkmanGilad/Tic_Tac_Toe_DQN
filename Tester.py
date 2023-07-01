@@ -2,12 +2,12 @@ from TicTacToe import TicTacToe
 from State import State
 from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
-from AI_Agent import AI_Agent
+from DQN_Agent import DQN_Agent
 
-PATH = 'Data/Q_SARSA_4.pth'
+PATH = 'Data\DQN_PARAM_30K.pth'
 
 env = TicTacToe(State())
-player1 = AI_Agent(1, env, graphics=None, Q_table_PATH=PATH, train=False)
+player1 = DQN_Agent(1, env=env, parametes_path=PATH, train=False)
 # player1 = Random_Agent(1, env,graphics=None)
 player2 = Random_Agent(-1, env,graphics=None)
 num = 1000

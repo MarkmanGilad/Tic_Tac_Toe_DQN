@@ -5,7 +5,7 @@ from Graphics import *
 import random
 
 class Random_Agent:
-    def __init__(self, player, env: TicTacToe, graphics: Graphics):
+    def __init__(self, player, env: TicTacToe, graphics: Graphics = None):
         self.env = env
         self.player = player
         self.graphics = graphics

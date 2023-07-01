@@ -2,8 +2,11 @@ from State import State
 import numpy as np
 
 class TicTacToe:
-    def __init__(self, state):
-        self.state : State = state
+    def __init__(self, state: State = None):
+        if state:
+            self.state : State = state
+        else:
+            self.state = State()
 
     def move (self, action):
         self.state.board[action] = self.state.player

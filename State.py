@@ -32,7 +32,8 @@ class State:
         tensor = torch.tensor(array, dtype=torch.float32, device=device)
         return tensor
     
-    def tensorToState (self, state_tensor, player = 1):
+    [staticmethod]
+    def tensorToState (state_tensor, player = 1):
         board = state_tensor.reshape([3,3]).cpu().numpy()
         return State(board, player)
 
