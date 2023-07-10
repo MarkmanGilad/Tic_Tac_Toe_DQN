@@ -21,9 +21,9 @@ class DQN (nn.Module):
         else:
             self.device = torch.device('cpu')
         
-        self.linear1 = nn.Linear(input_size, layer1, device=self.device)
-        self.linear2 = nn.Linear(layer1, layer2, device=self.device)
-        self.output = nn.Linear(layer2, output_size, device=self.device)
+        self.linear1 = nn.Linear(input_size, layer1)
+        self.linear2 = nn.Linear(layer1, layer2)
+        self.output = nn.Linear(layer2, output_size)
         
     def forward (self, x):
         x = self.linear1(x)

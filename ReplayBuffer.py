@@ -4,7 +4,6 @@ import torch
 import numpy as np
 from State import State
 
-capacity = 10000
 
 class ReplayBuffer:
     def __init__(self, capacity= 10000) -> None:
