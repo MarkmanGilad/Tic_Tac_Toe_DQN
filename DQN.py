@@ -51,3 +51,6 @@ class DQN (nn.Module):
     def __call__(self, states, actions):
         state_action = torch.cat((states,actions), dim=1)
         return self.forward(state_action)
+    
+
+    

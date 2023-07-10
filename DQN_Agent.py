@@ -23,6 +23,7 @@ class DQN_Agent:
         if parametes_path:
             self.DQN.load_params(parametes_path)
         self.train(train)
+        # self.train = train
         self.player = player
         self.env = env
 
@@ -33,11 +34,11 @@ class DQN_Agent:
           else:
               self.DQN.eval()
 
-    def get_action (self, state: State, epoch = 0, events= None, epsilon = True):
+    def get_action (self, state: State, epoch = 0, events= None, train = True):
         epsilon = self.epsilon_greedy(epoch)
         rnd = random.random()
         actions = self.env.legal_actions(state)
-        if self.train and epsilon and rnd < epsilon:
+        if self.train and train and rnd < epsilon:
             return random.choice(actions)
         
         state_tensor = state.toTensor()
@@ -56,7 +57,7 @@ class DQN_Agent:
             if dones[i].item():
                 actions.append((0,0))
             else:
-                actions.append(self.get_action(State.tensorToState(state), epsilon=False))
+                actions.append(self.get_action(State.tensorToState(state), train=True)) #SARSA = True / Q-learning = False
         return torch.tensor(actions)
 
     def epsilon_greedy(self,epoch, start = epsilon_start, final=epsilon_final, decay=epsiln_decay):
