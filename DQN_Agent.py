@@ -10,7 +10,7 @@ from State import State
 # epsilon Greedy
 epsilon_start = 1
 epsilon_final = 0.01
-epsiln_decay = 10000
+epsiln_decay = 2000
 
 # epochs = 1000
 # batch_size = 64
