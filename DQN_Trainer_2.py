@@ -1,21 +1,21 @@
-from DQN import DQN
-from DQN_Agent import DQN_Agent
+from DQN_2 import DQN
+from DQN_Agent_2 import DQN_Agent       #one layer of 64
 from Random_Agent import Random_Agent
 from TicTacToe import TicTacToe
 from ReplayBuffer import ReplayBuffer
 from State import State
 import torch 
 
-epochs = 20000
+epochs = 10000
 C = 1000
 batch = 64
 learning_rate = 0.1
-path = "Data\DQN_PARAM_6_20K.pth"
-replay_path = "Data\Replay_6_20K.pth"
+path = "Data\DQN_PARAM_8_10K.pth"
+replay_path = "Data\Replay_8_10K.pth"
 def main ():
     env = TicTacToe()
     player1 = DQN_Agent(1, env=env)
-    player1_hat = DQN_Agent(1, env=env)
+    player1_hat = DQN_Agent(1, env=env,train=False)
     Q = player1.DQN
     Q_hat :DQN = Q.copy()
     Q_hat.train = False
@@ -44,7 +44,7 @@ def main ():
                 continue
             states, actions, rewards, next_states, dones = replay.sample(batch)
             Q_values = Q(states, actions)
-            next_actions = player1.get_actions(next_states, dones)
+            next_actions = player1_hat.get_actions(next_states, dones) #fix bug
             with torch.no_grad():
                 Q_hat_Values = Q_hat(next_states, next_actions)
             
@@ -52,8 +52,8 @@ def main ():
             loss.backward()
             optim.step()
             optim.zero_grad()
-            if epoch % C == 0:
-                Q_hat.load_state_dict(Q.state_dict())
+        if epoch % C == 0:
+            Q_hat.load_state_dict(Q.state_dict())
 
     player1.save_param(path)
     torch.save(replay, replay_path)
