@@ -10,16 +10,19 @@ epochs = 20000
 C = 1000
 batch = 64
 learning_rate = 0.1
-path = "Data\DQN_PARAM_5_20K.pth"
-replay_path = "Data\Replay_5_20K.pth"
+path = "Data\DQN_PARAM_6_20K.pth"
+replay_path = "Data\Replay_6_20K.pth"
 def main ():
     env = TicTacToe()
     player1 = DQN_Agent(1, env=env)
-    player2 = Random_Agent(-1, env=env)
-    replay = ReplayBuffer()
+    player1_hat = DQN_Agent(1, env=env)
     Q = player1.DQN
     Q_hat :DQN = Q.copy()
     Q_hat.train = False
+    player1_hat.DQN = Q_hat
+
+    player2 = Random_Agent(-1, env=env)
+    replay = ReplayBuffer()
     optim = torch.optim.SGD(Q.parameters(), lr=learning_rate)
        
     for epoch in range(epochs):
@@ -28,8 +31,9 @@ def main ():
         while not env.end_of_game(state):
             action = player1.get_action(state, epoch=epoch)
             after_state, reward = env.next_state(state, action)
-            if env.end_of_game(after_state):
-                replay.push(state, action, reward, after_state, env.end_of_game(after_state))
+            done = env.end_of_game(after_state)
+            if done:
+                replay.push(state, action, reward, after_state, done)
                 break
             after_action = player2.get_action(state=after_state)
             next_state, reward = env.next_state(after_state, after_action)

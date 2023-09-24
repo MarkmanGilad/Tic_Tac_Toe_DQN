@@ -57,7 +57,7 @@ class DQN_Agent:
             if dones[i].item():
                 actions.append((0,0))
             else:
-                actions.append(self.get_action(State.tensorToState(state), train=False)) #SARSA = True / Q-learning = False
+                actions.append(self.get_action(State.tensorToState(state), train=True)) #SARSA = True / Q-learning = False
         return torch.tensor(actions)
 
     def epsilon_greedy(self,epoch, start = epsilon_start, final=epsilon_final, decay=epsiln_decay):
