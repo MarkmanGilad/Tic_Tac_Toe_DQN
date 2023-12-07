@@ -48,8 +48,8 @@ def main ():
         loss.backward()
         optim.step()
         optim.zero_grad()
-        if epoch % C == 0:
-            Q_hat.load_state_dict(Q.state_dict())
+    if epoch % C == 0:
+        Q_hat.load_state_dict(Q.state_dict())
 
     player1.save_param(path)
 

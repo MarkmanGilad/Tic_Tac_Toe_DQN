@@ -4,7 +4,7 @@ from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
 from DQN_Agent_2 import DQN_Agent
 
-PATH = 'Data\DQN_PARAM_9_10K.pth'
+PATH = 'Data\DQN_PARAM_9_5K.pth'
 # PATH=None
 env = TicTacToe(State())
 player1 = DQN_Agent(1, env=env, parametes_path=PATH, train=False)

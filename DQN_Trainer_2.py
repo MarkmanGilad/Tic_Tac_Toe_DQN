@@ -6,12 +6,12 @@ from ReplayBuffer import ReplayBuffer
 from State import State
 import torch 
 
-epochs = 30000
+epochs = 5000
 C = 1000
 batch = 64
 learning_rate = 0.1
-path = "Data\DQN_PARAM_9_20K.pth"
-replay_path = "Data\Replay_9_20K.pth"
+path = "Data\DQN_PARAM_9_5K.pth"
+replay_path = "Data\Replay_9_5K.pth"
 def main ():
     env = TicTacToe()
     player1 = DQN_Agent(1, env=env)
@@ -23,8 +23,9 @@ def main ():
 
     player2 = Random_Agent(-1, env=env)
     replay = ReplayBuffer()
-    optim = torch.optim.SGD(Q.parameters(), lr=learning_rate)
-       
+    # optim = torch.optim.SGD(Q.parameters(), lr=learning_rate)
+    optim = torch.optim.Adam(Q.parameters(), lr=learning_rate)
+
     for epoch in range(epochs):
         print (epoch, end="\r")
         state = State()
