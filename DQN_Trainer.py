@@ -7,7 +7,7 @@ from State import State
 import torch 
 
 epochs = 30000
-C = 1000
+C = 300
 batch = 64
 learning_rate = 0.1
 path = "Data\DQN_PARAM_30K.pth"
