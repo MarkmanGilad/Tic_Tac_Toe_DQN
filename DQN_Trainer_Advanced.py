@@ -8,11 +8,11 @@ from State import State
 
 import torch 
 
-epochs = 50000
+epochs = 500000
 C = 300
 batch = 64
 learning_rate = 0.1
-path = "Data\DQN_PARAM_Advanced.pth"
+path = "Data\DQN_PARAM_Advanced_2.pth"
 
 def main ():
     env = TicTacToe()
@@ -24,7 +24,9 @@ def main ():
     Q_hat :DQN = Q.copy()
     Q_hat.train = False
     optim = torch.optim.SGD(Q.parameters(), lr=learning_rate)
-       
+    results = []
+    result = [0,0,0] 
+    loss = torch.tensor(0)
     for epoch in range(epochs):
         print (epoch, end="\r")
         state = State()
@@ -53,8 +55,24 @@ def main ():
             optim.zero_grad()
         if epoch % C == 0:
             Q_hat.load_state_dict(Q.state_dict())
+        
+        if epoch % 100 == 0:
+            print(f"Epoch {epoch}, Loss: {loss.item():.3f}, result: {result} ")
+                  
 
+        if epoch % 100 == 0:
+            results.append(result)
+            result = [0,0,0]
+        else:
+            if reward == 1:
+                result[0] += 1
+            elif reward < 0: 
+                result[1] += 1
+            else: 
+                result[2] += 1
+
+    
     player1.save_param(path)
-
+    torch.save(results, f"Data/results_2.pth")
 if __name__ == '__main__':
     main()

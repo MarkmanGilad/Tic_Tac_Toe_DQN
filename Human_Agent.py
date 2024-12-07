@@ -17,7 +17,7 @@ class Human_Agent:
                     return action
         return None
 
-    def __call__(self, events=None, state=None):
+    def __call__(self, events=None, state=None, env=None, train=None):
         return self.get_action(events)
     
 

@@ -6,12 +6,12 @@ from ReplayBuffer import ReplayBuffer
 from State import State
 import torch 
 
-epochs = 5000
+epochs = 50000
 C = 300
 batch = 64
 learning_rate = 0.1
-path = "Data\DQN_PARAM_9_5K.pth"
-replay_path = "Data\Replay_9_5K.pth"
+path = "Data\DQN_PARAM_Trainer2_2024.pth"
+replay_path = "Data\Replay_Trainer2_2024.pth"
 def main ():
     env = TicTacToe()
     player1 = DQN_Agent(1, env=env)

@@ -4,9 +4,11 @@ from TicTacToe import TicTacToe
 from State import State
 from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
-from DQN_Agent_2 import DQN_Agent
+from DQN_Agent import DQN_Agent
 
-PATH = 'Data\DQN_PARAM_9_20K.pth'
+# PATH = 'Data\DQN_PARAM_9_20K.pth'
+PATH = "Data\DQN_PARAM_Advanced_2.pth"
+
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -26,7 +28,7 @@ def main ():
         for event in events:
             if event.type == pygame.QUIT:
                run = False
-        action = player(events, env.state)
+        action = player(events=events, state=env.state, train = False)
         if action:
             env.move(action)
             player = switch_players(player)

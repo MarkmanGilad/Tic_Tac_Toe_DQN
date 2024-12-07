@@ -1,6 +1,5 @@
 import math
 import random
-from typing import Any
 import torch
 import torch.nn as nn
 import numpy as np
@@ -38,7 +37,7 @@ class DQN_Agent:
         epsilon = self.epsilon_greedy(epoch)
         rnd = random.random()
         actions = self.env.legal_actions(state)
-        if self.train and train and rnd < epsilon:
+        if train and rnd < epsilon:
             return random.choice(actions)
         
         state_tensor = state.toTensor()
@@ -70,7 +69,7 @@ class DQN_Agent:
     def load_params (self, path):
         self.DQN.load_params(path)
 
-    def __call__(self, events= None, state=None) -> Any:
-        return self.get_action(state)
+    def __call__(self, events= None, state=None, train=True, env=None):
+        return self.get_action(state=state, train=train)
 
 

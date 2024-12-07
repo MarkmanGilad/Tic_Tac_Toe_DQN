@@ -2,14 +2,16 @@ from TicTacToe import TicTacToe
 from State import State
 from Human_Agent import Human_Agent
 from Random_Agent import Random_Agent
-from DQN_Agent_2 import DQN_Agent
+from Random_Agent_Advanced import Random_Agent_Advanced
+from DQN_Agent import DQN_Agent
 
-PATH = 'Data\DQN_PARAM_9_5K.pth'
+PATH = "Data\DQN_PARAM_Advanced_2.pth"
 # PATH=None
 env = TicTacToe(State())
 player1 = DQN_Agent(1, env=env, parametes_path=PATH, train=False)
 # player1 = Random_Agent(1, env,graphics=None)
-player2 = Random_Agent(-1, env,graphics=None)
+player2 = Random_Agent_Advanced(-1, env,graphics=None)
+# player2 = Random_Agent(-1, env,graphics=None)
 num = 1000
 
 def main ():
@@ -22,7 +24,7 @@ def main ():
         state = State()
         player = player1
         while not env.end_of_game(state):
-            action = player.get_action(state=state)
+            action = player.get_action(state=state, train=False)
             state, _ = env.next_state(state,action)
             player = switch_players(player)
         if state.end_of_game == 1:

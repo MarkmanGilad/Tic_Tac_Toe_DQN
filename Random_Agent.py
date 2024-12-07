@@ -10,7 +10,7 @@ class Random_Agent:
         self.player = player
         self.graphics = graphics
 
-    def get_action(self, events=None, state = None, epoch=None):
+    def get_action(self, events=None, state = None, epoch=None, train = None):
         if state is None:
             state = self.env.state
         board = state.board
